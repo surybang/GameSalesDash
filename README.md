@@ -1,14 +1,45 @@
 # GameSalesDash
 
-Automatisation d'un reporting Excel sur les ventes de jeux vidéo. Le script génère un classeur `.xlsx` structuré à partir du dataset [Video Game Sales](https://www.kaggle.com/datasets/gregorut/videogamesales) (Kaggle), comprenant deux dashboards interactifs avec filtres, tableaux TOP 5, graphiques et indicateurs clés.
+Automatisation d'un reporting Excel sur les ventes de jeux vidéo.
 
-Les données brutes sont hébergées sur MinIO et téléchargées automatiquement à chaque lancement. Le notebook d'exploration original est conservé tel quel dans `notebooks/`.
+## Contexte
 
+Ce reporting s'adresse aux équipes business et market analysts de l'industrie du jeu vidéo : suivi des performances commerciales par territoire, comparaison entre plateformes, identification des tendances par genre et analyse des parts de marché par éditeur.
+
+## Données
+
+Source : [Kaggle Video Game Sales](https://www.kaggle.com/datasets/gregorut/videogamesales).
+
+| Colonne | Type | Description |
+|---|---|---|
+| `rank` | int | Classement global par ventes |
+| `name` | str | Titre du jeu |
+| `platform` | str | Plateforme de sortie (PS3, X360, Wii…) |
+| `year` | int | Année de sortie |
+| `genre` | str | Genre (Action, Shooter, Sports…) |
+| `publisher` | str | Éditeur |
+| `na_sales` | float | Ventes Amérique du Nord (millions) |
+| `eu_sales` | float | Ventes Europe (millions) |
+| `jp_sales` | float | Ventes Japon (millions) |
+| `other_sales` | float | Ventes autres régions (millions) |
+| `global_sales` | float | Ventes mondiales (millions) |
+
+16 598 entrées brutes, 307 lignes supprimées au nettoyage (valeurs manquantes sur `year` ou `publisher`).
+
+## Aperçu
+
+**TDB_1** — Dashboard principal : filtres interactifs, tableaux TOP 5 par plateforme et indicateurs KPI.
+
+![TDB_1](img/TDB1.JPG)
+
+**TDB_2** — Dashboard d'ensemble : évolutions temporelles, répartition par genre et parts des éditeurs.
+
+![TDB_2](img/TDB2.JPG)
 ---
 
 ## Prérequis
 
-- [uv](https://docs.astral.sh/uv/getting-started/installation/) installé sur la machine
+- [uv](https://docs.astral.sh/uv/getting-started/installation/)
 - Python 3.11+
 
 ---
@@ -46,7 +77,7 @@ GameSalesDash/
 ├── img/                        # Captures d'écran utilisées
 │
 ├── notebooks/
-│   └── projet.ipynb            # Notebook d'exploration original
+│   └── projet.ipynb            # Notebook d'exploration
 │
 └── src/gamesalesdash/
     ├── __init__.py
@@ -55,19 +86,19 @@ GameSalesDash/
     ├── dashboards.py           # Orchestration : assemble les onglets
     ├── main.py                 # Point d'entrée
     │
-    ├── components/             # Briques réutilisables de construction Excel
-    │   ├── filters.py          # Filtres déroulants (validation de données)
+    ├── components/
+    │   ├── filters.py          # Filtres déroulants
     │   ├── styles.py           # Bordures et styles partagés
-    │   ├── tables.py           # Tableaux TOP 5 (titres, en-têtes, formules matricielles)
-    │   ├── charts.py           # Graphiques (barres, courbes, camemberts)
-    │   └── indicators.py       # Cartes indicateurs (COUNTIFS / SUMIFS)
+    │   ├── tables.py           # Tableaux TOP 5
+    │   ├── charts.py           # Graphiques
+    │   └── indicators.py       # Cartes indicateurs
     │
     └── sheets/                 # Construction par onglet
         ├── cleaned_data.py     # Onglet cleaned_data
-        ├── resources.py        # Onglet Ressources (listes UNIQUE/SORT)
-        ├── tdb1.py             # Onglet TDB_1 (dashboard principal)
-        ├── calc_sheet.py       # Onglet calc_sheet (agrégats)
-        └── tdb2.py             # Onglet TDB_2 (dashboard d'ensemble)
+        ├── resources.py        # Onglet Ressources
+        ├── tdb1.py             # Onglet TDB_1
+        ├── calc_sheet.py       # Onglet calc_sheet
+        └── tdb2.py             # Onglet TDB_2
 ```
 
 ### Rôle de chaque module
@@ -83,11 +114,3 @@ GameSalesDash/
 **`dashboards.py`** assemble les onglets dans l'ordre et retourne le classeur. Le workbook est construit entièrement en mémoire et sauvegardé une seule fois.
 
 **`main.py`** est le point d'entrée CLI. Il appelle le pipeline complet : chargement, nettoyage, construction, sauvegarde.
-
----
-
-## Données
-
-Le dataset provient de [Kaggle – Video Game Sales](https://www.kaggle.com/datasets/gregorut/videogamesales). Il contient 16 598 jeux ayant dépassé 100 000 ventes, avec les champs suivants : rang, nom, plateforme, année, genre, éditeur, et les ventes par région (NA, EU, JP, Autres) ainsi que les ventes globales.
-
-Le nettoyage supprime 307 lignes incomplètes (valeurs manquantes sur `year` ou `publisher`) et est appliqué à la volée à chaque run.
