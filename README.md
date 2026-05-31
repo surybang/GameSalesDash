@@ -26,7 +26,7 @@ uv sync
 ## Utilisation
 
 ```bash
-uv run make_reporting_videogames
+uv run gamesalesdash
 ```
 
 Le fichier est produit dans `result/Dashboards_videogames.xlsx`. Une version générée est également disponible directement sur [MinIO](https://minio.lab.sspcloud.fr/fabienhos/GameSalesDash/Dashboards_videogames.xlsx).
