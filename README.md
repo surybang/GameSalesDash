@@ -28,11 +28,11 @@ Source : [Kaggle Video Game Sales](https://www.kaggle.com/datasets/gregorut/vide
 
 ## Aperçu
 
-**TDB_1** — Dashboard principal : filtres interactifs, tableaux TOP 5 par plateforme et indicateurs KPI.
+**TDB_1** Dashboard principal : filtres interactifs, tableaux TOP 5 par plateforme et indicateurs KPI.
 
 ![TDB_1](img/TDB1.JPG)
 
-**TDB_2** — Dashboard d'ensemble : évolutions temporelles, répartition par genre et parts des éditeurs.
+**TDB_2** Dashboard d'ensemble : évolutions temporelles, répartition par genre et parts des éditeurs.
 
 ![TDB_2](img/TDB2.JPG)
 ---
