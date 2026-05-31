@@ -103,14 +103,14 @@ GameSalesDash/
 
 ### Rôle de chaque module
 
-**`config.py`** centralise toutes les valeurs dispersées dans le notebook : URL MinIO, noms d'onglets, palette de couleurs, mapping des colonnes de `cleaned_data` et valeurs par défaut des filtres.
+**`config.py`** centralise toutes les constantes duu projet.
 
-**`data.py`** expose `load_data()` qui charge le CSV depuis MinIO, et `clean_data()` qui applique le nettoyage à la volée (suppression des lignes avec `year` ou `publisher` manquants, conversion `year` en entier).
+**`data.py`** récupère les données et applique une fonction de nettoyage.
 
-**`components/`** regroupe les briques de construction Excel réutilisables : chaque module correspond à une responsabilité précise (filtres, styles, tables, graphiques, indicateurs) et ne connaît pas la structure des dashboards.
+**`components/`** regroupe les briques de construction Excel : chaque module correspond à une responsabilité précise (filtres, styles, tables, graphiques, indicateurs).
 
-**`sheets/`** contient un module par onglet du classeur. Chaque module orchestre ses propres briques pour construire un onglet complet.
+**`sheets/`** contient un module par onglet du classeur.
 
-**`dashboards.py`** assemble les onglets dans l'ordre et retourne le classeur. Le workbook est construit entièrement en mémoire et sauvegardé une seule fois.
+**`dashboards.py`** assemble les onglets dans l'ordre et retourne le classeur.
 
-**`main.py`** est le point d'entrée CLI. Il appelle le pipeline complet : chargement, nettoyage, construction, sauvegarde.
+**`main.py`** appelle le pipeline complet : chargement, nettoyage, construction, sauvegarde.
